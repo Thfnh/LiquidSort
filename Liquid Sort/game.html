@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Sort</title>
+    <link rel="stylesheet" type="text/js" href="style.css">
+</head>
+
+<body>
+    <div id="game">
+        <div id="menu">
+            <div id="menu-heading"> Water Sort Puzzle </div>
+
+            <div class="lvl" id="easy" onclick="OpenLevel(0);">Easy</div>
+            <div class="lvl" id="medium" onclick="OpenLevel(1);">Medium</div>
+            <div class="lvl" id="hard" onclick="OpenLevel(2);">Hard</div>
+            <div class="lvl" id="very-hard" onclick="OpenLevel(3);">Very Hard</div>
+            <div class="lvl" id="impossible" onclick="OpenLevel(7);">Impossible</div>
+
+            <br><br><br>
+
+            <div id="rules-btn" onclick="ShowRules();">Rules</div>
+        </div>
+
+        <div id="level"></div>
+
+        <div id="rules-page">
+            <div id="rules">
+
+                <div id="rules-heading">
+                    Rules
+                </div>
+
+                <div id="rules-text">
+                    Here is the write your game rules
+                </div>
+
+                <div id="back" onclick="HideRules();">
+                    Back
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="style.js"></script>
+
+</html>
