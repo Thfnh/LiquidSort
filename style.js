@@ -82,8 +82,10 @@ function ApplyInfo(a = water) {
     }
 
     level.innerHTML += `
-    <div class="game-buttons" onclick="Restart()">Restart</div>
-    <div class="game-buttons" onclick="AI_Solve()">AI Solve</div>
+    <div class="controls">
+    <button class="btn restart" onclick="Restart()">Restart</button>
+    <button class="btn ai" onclick="AI_Solve()" id="ai-solve">AI Solve</button>
+</div>
     <div id="moves">Moves: ${moves}</div>`;
 }
 
@@ -154,10 +156,17 @@ function AnimateAndTransfer(a, b) {
         // --- BƯỚC 3: HIỆN DÒNG NƯỚC CHẢY (Sau khi nghiêng - 0.2s) ---
         setTimeout(() => {
             // Tính toán vị trí dòng nước (từ miệng chai A rơi xuống chai B)
-            let currentRectA = tubeA.getBoundingClientRect();
-            // Miệng chai A sau khi xoay 70 độ nằm khoảng ở góc dưới bên phải mới
-            let streamX = currentRectA.right - 15;
-            let streamY = currentRectA.bottom - 20;
+            let rectA2 = tubeA.getBoundingClientRect();
+            let rectB2 = tubeB.getBoundingClientRect();
+
+            // Tâm miệng chai A (ổn định hơn khi xoay)
+            let streamX = rectA2.left + rectA2.width * 0.75;
+            let streamY = rectA2.top + 20;
+
+            // Điểm nhận nước (miệng chai B)
+            let targetY = rectB2.top + 10;
+
+            // Chiều cao dòng nước
             // Chiều cao dòng nước rơi xuống miệng nước hiện tại của chai B
             // Nước trong B càng cao (topB lớn) thì dòng nước càng ngắn
             let waterLevelB = (3 - topB) * 30; // 30px mỗi khối
@@ -168,6 +177,9 @@ function AnimateAndTransfer(a, b) {
             streamElement.style.height = `${streamHeight}px`;
             streamElement.style.backgroundColor = colorA; // Dòng nước cùng màu
             streamElement.classList.add("active");
+
+            streamX += 5;
+            streamY += 10;
 
             // --- BƯỚC 4: CẬP NHẬT MẢNG WATER VÀ VẼ LẠI GIAO DIỆN (Khi đang đổ - 0.4s) ---
             setTimeout(() => {
