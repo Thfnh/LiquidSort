@@ -82,11 +82,11 @@ function ApplyInfo(a = water) {
     }
 
     level.innerHTML += `
-    <div class="controls">
-    <button class="btn restart" onclick="Restart()">Restart</button>
-    <button class="btn ai" onclick="AI_Solve()" id="ai-solve">AI Solve</button>
+<div class="controls">
+    <button class="btn restart" onclick="Restart()"> Restart</button>
+    <button class="btn ai" onclick="AI_Solve()" id="ai-solve"> AI Solve</button>
 </div>
-    <div id="moves">Moves: ${moves}</div>`;
+<div id="moves">Moves: ${moves}</div>`;
 }
 
 let streamElement = null;
@@ -110,120 +110,105 @@ ApplyInfo = function (a) {
 }
 
 function AnimateAndTransfer(a, b) {
-    // 1. Kiểm tra logic nước (giữ nguyên logic cũ)
     let topA = water[a].findLastIndex(c => c !== "transparent");
-    if (topA === -1) return; // Chai A rỗng (vô lý nhưng cứ check)
+    if (topA === -1) return;
 
     let colorA = water[a][topA];
     let topB = water[b].findLastIndex(c => c !== "transparent");
 
-    if (topB === 3) return; // B đầy
-    if (topB !== -1 && water[b][topB] !== colorA) return; // Khác màu
+    if (topB === 3) return;
+    if (topB !== -1 && water[b][topB] !== colorA) return;
 
-    // Khóa click
     transferring = true;
     moves++;
 
-    // Lấy DOM elements
     let tubeA = document.getElementById(`tube-${a}`);
     let tubeB = document.getElementById(`tube-${b}`);
 
-    // --- BƯỚC 1: DI CHUYỂN CHAI A ĐẾN GẦN CHAI B ---
-
-    // Lấy vị trí hiện tại của chai B từ CSS (vì dùng calc và px)
-    // Ta cần ép kiểu để lấy số
+    // === MOVE A NEAR B ===
     let rectB = tubeB.getBoundingClientRect();
     let rectA = tubeA.getBoundingClientRect();
 
-    // Tính toán vị trí đích cho chai A (nằm bên trái và cao hơn chai B một chút)
-    // Vì transform-origin là top-left, ta di chuyển miệng chai A đến gần miệng chai B
-    let targetLeft = rectB.left - rectA.width / 2 - 10; // Nằm bên trái B 10px
-    let targetTop = rectB.top - 50; // Nằm cao hơn B 50px để lấy đà đổ
+    let targetLeft = rectB.left - rectA.width / 2 - 10;
+    let targetTop = rectB.top - 50;
 
-    // Lưu lại vị trí cũ để reset
     let oldTop = tubeA.style.top;
     let oldLeft = tubeA.style.left;
 
-    // Áp đặt vị trí mới (phải dùng pixel tuyệt đối)
     tubeA.style.top = `${targetTop}px`;
     tubeA.style.left = `${targetLeft}px`;
-    tubeA.classList.remove("selected"); // Bỏ class selected cũ
+    tubeA.classList.remove("selected");
 
-    // --- BƯỚC 2: NGHIÊNG CHAI A VÀ ĐỔ NƯỚC (Sau khi di chuyển xong - 0.5s) ---
     setTimeout(() => {
         tubeA.classList.add("pouring");
 
-        // --- BƯỚC 3: HIỆN DÒNG NƯỚC CHẢY (Sau khi nghiêng - 0.2s) ---
         setTimeout(() => {
-            // Tính toán vị trí dòng nước (từ miệng chai A rơi xuống chai B)
-            let rectA2 = tubeA.getBoundingClientRect();
-            let rectB2 = tubeB.getBoundingClientRect();
 
-            // Tâm miệng chai A (ổn định hơn khi xoay)
-            let streamX = rectA2.left + rectA2.width * 0.75;
-            let streamY = rectA2.top + 20;
+            // ===== FIX CHUẨN DÒNG NƯỚC =====
+            let leftA = parseFloat(tubeA.style.left);
+            let topApx = parseFloat(tubeA.style.top);
 
-            // Điểm nhận nước (miệng chai B)
-            let targetY = rectB2.top + 10;
+            let leftB = parseFloat(tubeB.style.left);
+            let topBpx = parseFloat(tubeB.style.top);
 
-            // Chiều cao dòng nước
-            // Chiều cao dòng nước rơi xuống miệng nước hiện tại của chai B
-            // Nước trong B càng cao (topB lớn) thì dòng nước càng ngắn
-            let waterLevelB = (3 - topB) * 30; // 30px mỗi khối
-            let streamHeight = rectB.bottom - streamY - waterLevelB;
+            // điểm đổ (miệng chai A)
+            let streamX = leftA + 45;
+            let streamY = topApx + 20;
 
+            // điểm nhận (chai B)
+            let targetY2 = topBpx + 10;
+
+            let streamHeight = targetY2 - streamY;
+            streamHeight = Math.max(0, streamHeight);
+
+            streamElement.style.position = "fixed";
             streamElement.style.left = `${streamX}px`;
             streamElement.style.top = `${streamY}px`;
             streamElement.style.height = `${streamHeight}px`;
-            streamElement.style.backgroundColor = colorA; // Dòng nước cùng màu
+            streamElement.style.backgroundColor = colorA;
             streamElement.classList.add("active");
 
-            streamX += 5;
-            streamY += 10;
-
-            // --- BƯỚC 4: CẬP NHẬT MẢNG WATER VÀ VẼ LẠI GIAO DIỆN (Khi đang đổ - 0.4s) ---
             setTimeout(() => {
-                // Tắt dòng nước
-                streamElement.classList.remove("active");
-                streamElement.style.height = '0';
 
-                // --- Logic tính toán lượng nước (Giữ nguyên của bạn) ---
+                streamElement.classList.remove("active");
+                streamElement.style.height = "0";
+
+                // ===== LOGIC NƯỚC =====
                 let count = 0;
                 let space = 3 - topB;
+
                 for (let i = topA; i >= 0 && water[a][i] === colorA && count < space; i--) {
                     water[a][i] = "transparent";
                     count++;
                 }
+
                 for (let i = 0; i < 4 && count > 0; i++) {
                     if (water[b][i] === "transparent") {
                         water[b][i] = colorA;
                         count--;
                     }
                 }
-                // --------------------------------------------------------
 
-                ApplyInfo(); // Vẽ lại màu trong chai
+                ApplyInfo();
 
-                // --- BƯỚC 5: DI CHUYỂN CHAI A VỀ VỊ TRÍ CŨ (0.1s sau khi vẽ lại) ---
                 setTimeout(() => {
-                    let tubeA_New = document.getElementById(`tube-${a}`); // Lấy lại DOM sau ApplyInfo
+                    let tubeA_New = document.getElementById(`tube-${a}`);
                     tubeA_New.classList.remove("pouring");
                     tubeA_New.style.top = oldTop;
                     tubeA_New.style.left = oldLeft;
 
-                    // Mở khóa click sau khi chai về chỗ cũ (0.5s nữa)
                     setTimeout(() => {
                         transferring = false;
                         Won();
-                    }, 500);
+                    }, 400);
 
                 }, 100);
 
-            }, 400); // Thời gian dòng nước chảy
+            }, 400);
 
-        }, 200); // Thời gian chờ nghiêng chai xong
+        }, 200);
 
-    }, 500); // Thời gian di chuyển chai A đến gần chai B
+    }, 500);
 }
 
 window.Clicked = function (x) {
