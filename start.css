@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Press Start 2P', monospace;
+    background: #0a0a0a;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    image-rendering: pixelated;
+}
+
+/* CONTAINER */
+.start-screen {
+    text-align: center;
+}
+
+/* ===== LOGO ===== */
+.logo {
+    margin-bottom: 50px;
+}
+
+/* chữ LIQUID */
+.liquid {
+    font-size: 36px;
+    color: #00ffcc;
+
+    text-shadow:
+        3px 3px 0 #000,
+        6px 6px 0 #ff00ff;
+
+    margin-bottom: 10px;
+}
+
+/* chữ SORT */
+.sort {
+    font-size: 32px;
+    color: #ffff00;
+
+    text-shadow:
+        3px 3px 0 #000,
+        6px 6px 0 #ff6600;
+}
+
+/* ===== TEST TUBE PIXEL ===== */
+.tube {
+    width: 30px;
+    height: 90px;
+
+    border: 4px solid #000;
+    background: #222;
+
+    margin: 20px auto 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* nước pixel */
+.tube::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+
+    background: #00ff7f;
+
+    animation: liquidMove 1s infinite alternate;
+}
+
+/* animation đơn giản kiểu pixel */
+@keyframes liquidMove {
+    from {
+        height: 40%;
+    }
+
+    to {
+        height: 70%;
+    }
+}
+
+/* ===== BUTTONS ===== */
+.buttons button {
+    display: block;
+    margin: 15px auto;
+
+    padding: 18px 30px;
+
+    font-size: 10px;
+    font-family: 'Press Start 2P', monospace;
+
+    background: #00aa00;
+    color: white;
+
+    border: 4px solid #000;
+
+    box-shadow: 5px 5px 0 #000;
+
+    cursor: pointer;
+
+    text-transform: uppercase;
+}
+
+/* hover kiểu retro */
+.buttons button:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 #000;
+}
+
+/* click kiểu retro */
+.buttons button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #000;
+}

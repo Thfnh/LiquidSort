@@ -1,22 +1,315 @@
-@import url("https://fonts.googleapis.com/css2?family=Sriracha&family=Raleway:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sriracha&family=Raleway:wght@200;300;400;600;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&display=swap");
 
 :root {
-    --primary-bg: #4b0082;
-    --accent-yellow: #ffff00;
-    --button-green: #006400;
-    --hover-green: #008000;
+    --primary-bg: linear-gradient(135deg, #4b0082 0%, #8a2be2 50%, #1e3c72 100%);
+    --accent-yellow: linear-gradient(45deg, #ffff00 0%, #ffd700 50%, #ffed4a 100%);
+    --button-green: linear-gradient(135deg, #006400 0%, #32cd32 50%, #00ff7f 100%);
+    --hover-green: linear-gradient(135deg, #008000 0%, #00ff00 50%, #90ee90 100%);
     --text-white: #ffffff;
+    --win-gradient-start: linear-gradient(45deg, #6a0dad, #4facfe);
+    --win-gradient-end: linear-gradient(45deg, #4facfe, #00f2fe);
+    --shadow-glow: 0 0 20px rgba(255, 255, 0, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    /* Thêm màu mới cho level nổi bật */
+    --level-bg: linear-gradient(135deg, #00b140 0%, #00d45e 50%, #00ff7f 100%);
+    --level-hover: linear-gradient(135deg, #00a33b 0%, #00c851 50%, #32ff7f 100%);
 }
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', 'Roboto', sans-serif;
+    font-weight: 300;
     user-select: none;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background: linear-gradient(-45deg, #f0f0f0, #e0e0ff, #f0f8ff, #f0f0f0);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     overflow-x: hidden;
+    letter-spacing: 0.5px;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* MENU - Tăng độ đậm cho background */
+#menu {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(75, 0, 130, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
+        linear-gradient(135deg, #2c164f 0%, #4b0082 30%, #8a2be2 70%, #1e3c72 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding-bottom: 80px;
+    backdrop-filter: blur(10px);
+}
+
+#menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.15"/><circle cx="75" cy="75" r="1.5" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.8" fill="white" opacity="0.12"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+    animation: sparkle 20s linear infinite;
+}
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Các phần khác giữ nguyên... */
+#menu-heading {
+    width: 100%;
+    height: 70px;
+    background: var(--accent-yellow);
+    font-size: 30px;
+    line-height: 70px;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    box-shadow:
+        0 8px 32px rgba(255, 255, 0, 0.5),
+        inset 0 2px 10px rgba(255, 255, 255, 0.4);
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    animation: headingGlow 3s ease-in-out infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-heading::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s linear infinite;
+}
+
+@keyframes headingGlow {
+    0% {
+        box-shadow: 0 8px 32px rgba(255, 255, 0, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3);
+    }
+
+    100% {
+        box-shadow: 0 12px 48px rgba(255, 255, 0, 0.8), inset 0 4px 20px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+/* LEVEL BUTTON */
+.lvl {
+    width: 85%;
+    max-width: 400px;
+    margin: 20px 0;
+    height: 75px;
+    color: var(--text-white);
+    background:
+        var(--level-bg),
+        linear-gradient(145deg, rgba(0, 177, 64, 0.9), rgba(0, 212, 94, 0.95)),
+        rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 🔥 GAME FONT PIXEL RETRO */
+    font-family: 'Press Start 2P', 'Russo One', monospace;
+    font-size: 16px;
+    /* Nhỏ hơn cho pixel style */
+    font-weight: 400;
+    line-height: 1.1;
+    text-shadow:
+        2px 2px 0px rgba(0, 0, 0, 0.7),
+        3px 3px 0px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    border-radius: 12px;
+    /* Bo góc ít hơn cho retro */
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow:
+        0 12px 35px rgba(0, 177, 64, 0.6),
+        0 6px 20px rgba(0, 0, 0, 0.25),
+        inset 0 2px 8px rgba(255, 255, 255, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-bottom: 5px solid rgba(0, 150, 50, 0.9);
+    /* PIXEL GAMING EFFECTS */
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+.lvl::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.lvl:hover {
+    background:
+        var(--level-hover),
+        linear-gradient(145deg, rgba(0, 163, 59, 0.95), rgba(0, 200, 81, 1)),
+        rgba(255, 255, 255, 0.3);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow:
+        0 25px 50px rgba(0, 200, 81, 0.7),
+        0 0 50px rgba(0, 255, 127, 0.6),
+        inset 0 3px 15px rgba(255, 255, 255, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 1);
+    border-bottom: 5px solid rgba(0, 180, 60, 1);
+    /* TEXT HOVER EFFECT */
+    font-size: 17px;
+    text-shadow:
+        3px 3px 0px rgba(0, 0, 0, 0.8),
+        4px 4px 0px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2.5px;
+}
+
+.lvl:hover::before {
+    left: 100%;
+}
+
+.lvl:active {
+    transform: translateY(-4px) scale(1.02);
+    transition: all 0.2s ease;
+    font-size: 16px;
+}
+
+/* Các phần còn lại giữ nguyên */
+#rules-btn {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 55px;
+    background:
+        linear-gradient(145deg, #fc1c2b, #ab46da),
+        var(--glass-bg);
+    border-radius: 25px 25px 0 0;
+    text-align: center;
+    line-height: 55px;
+    font-size: 22px;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    cursor: pointer;
+    z-index: 5;
+    letter-spacing: 0.8px;
+    box-shadow: 0 8px 25px rgba(144, 238, 144, 0.4);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#rules-btn:hover {
+    height: 60px;
+    width: 240px;
+    box-shadow:
+        0 12px 35px rgba(144, 238, 144, 0.6),
+        0 0 25px rgba(144, 238, 144, 0.4);
+    transform: translateX(-50%) translateY(-5px);
+}
+
+#back {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 28px;
+    background:
+        linear-gradient(145deg, #f5f5b4, #90ee90),
+        var(--glass-bg);
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #006400;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow:
+        0 6px 20px rgba(100, 255, 100, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.5px;
+}
+
+#back:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+        0 12px 30px rgba(100, 255, 100, 0.6),
+        0 0 25px rgba(100, 255, 100, 0.4);
+    background:
+        linear-gradient(145deg, #90ee90, #adff2f),
+        var(--glass-bg);
+}
+
+#back:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+@media (max-width: 480px) {
+    .lvl {
+        width: 90%;
+        font-size: 22px;
+        height: 65px;
+    }
+
+    #menu-heading {
+        font-size: 26px;
+        height: 65px;
+        line-height: 65px;
+    }
 }
 
 /* GAME CONTAINER */
@@ -26,91 +319,8 @@ body {
     width: 100vw;
 }
 
-/* MENU */
-#menu {
-    position: absolute;
-    inset: 0;
-    background-color: var(--primary-bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    padding-bottom: 80px;
-}
-
-#menu-heading {
-    width: 100%;
-    height: 60px;
-    background-color: var(--accent-yellow);
-    font-size: 28px;
-    line-height: 60px;
-    text-align: center;
-    font-weight: 900;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
-}
-
-.lvl {
-    width: 85%;
-    max-width: 400px;
-    margin: 15px 0;
-    height: 70px;
-    color: var(--text-white);
-    background-color: var(--button-green);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 600;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.lvl:hover {
-    background-color: var(--hover-green);
-    transform: translateY(-3px) scale(1.02);
-}
-
 /* GAME AREA */
-#level {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background-color: #ffffff;
-    z-index: 10;
-    padding-top: 70px;
-}
 
-/* RULE BUTTON */
-#rules-btn {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 50px;
-    background-color: #90ee90;
-    border-radius: 20px 20px 0 0;
-    text-align: center;
-    line-height: 50px;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    z-index: 5;
-}
-
-/* BACK BUTTON */
-#back {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 25px;
-    background-color: #64ff64;
-    border-radius: 8px;
-    cursor: pointer;
-}
 
 /* TEST TUBE */
 .test-tube {
@@ -121,7 +331,7 @@ body {
     border-radius: 0 0 30px 30px;
     background-color: rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    transition: transform 0.5s ease, top 0.5s ease, left 0.5s ease;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     z-index: 1;
     transform-origin: top left;
@@ -148,11 +358,77 @@ body {
     z-index: 999;
     transform: translateX(30px) translateY(2px) rotate(10deg);
     transform-origin: top center;
-    transition: height 0.4s ease, top 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .pouring-stream.active {
     height: 100px;
+}
+
+/* Gợi ý nhẹ - ống nguồn */
+.test-tube.hint-soft-from {
+    border-color: rgba(227, 143, 6, 0.5);
+
+    box-shadow:
+        0 0 8px rgba(251, 231, 98, 0.4);
+
+    transform: translateY(-5px);
+    /* nhẹ thôi */
+}
+
+/* Gợi ý nhẹ - ống nhận */
+.test-tube.hint-soft-to {
+    border-color: rgba(6, 231, 55, 0.5);
+
+    box-shadow:
+        0 0 8px rgba(241, 2, 153, 0.4);
+
+    transform: translateY(-3px);
+}
+
+.test-tube.hint-soft-from,
+.test-tube.hint-soft-to {
+    animation: hintFade 2s ease forwards;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    50% {
+        transform: translateX(3px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.test-tube.hint-soft-from {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes hintFade {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
 }
 
 .colors {
@@ -179,13 +455,17 @@ body {
 .btn {
     padding: 12px 20px;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.5px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: white;
 }
+
 
 .btn.restart {
     background: linear-gradient(135deg, #ff7b7b, #ff3d3d);
@@ -194,11 +474,15 @@ body {
 
 .btn.ai {
     background: linear-gradient(135deg, #4facfe, #00f2fe);
-    color: white;
+}
+
+.btn.undo {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
 }
 
 .btn:hover {
     transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .btn:active {
@@ -219,26 +503,32 @@ body {
     padding: 10px 20px;
     border-radius: 15px;
     font-size: 18px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
     display: flex;
     gap: 20px;
     z-index: 999;
+    letter-spacing: 0.5px;
 }
 
+/* WIN SCREEN - Đồng bộ theme, font mềm */
 .win-screen {
     position: fixed;
-    inset: 0;
-    /* Muted animated gradient */
-    background: linear-gradient(-45deg, #4facfe 0%, #00f2fe 25%, #4fe0a9 50%, #4facfe 100%);
-    background-size: 300% 300%;
-    animation: gradientShift 12s ease infinite;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+
     color: white;
-    font-family: 'Arial', sans-serif;
-    overflow: hidden;
-    z-index: 1000;
+    text-align: center;
+    z-index: 999;
+    animation: fadeIn 0.5s ease;
 }
 
 @keyframes gradientShift {
@@ -260,8 +550,8 @@ body {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
-    animation: float 25s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    animation: float 30s ease-in-out infinite;
     pointer-events: none;
 }
 
@@ -273,25 +563,160 @@ body {
     }
 
     33% {
-        transform: translate(20px, -20px) rotate(120deg);
+        transform: translate(15px, -15px) rotate(120deg);
     }
 
     66% {
-        transform: translate(-10px, 10px) rotate(240deg);
+        transform: translate(-8px, 8px) rotate(240deg);
     }
 }
 
+
+/* ===== WIN SCREEN ===== */
+.win-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+    z-index: 999;
+    animation: fadeIn 0.5s ease;
+
+    overflow: hidden;
+    /* tránh confetti tràn */
+}
+
+/* Lớp nền hiệu ứng */
+.win-screen::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    animation: float 30s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Confetti */
+.win-screen::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, var(--accent-yellow), transparent);
+    border-radius: 50%;
+    animation: confetti1 6s linear infinite;
+    top: -3%;
+    left: 25%;
+    opacity: 0.85;
+    z-index: 0;
+}
+
+/* ===== TEXT ===== */
 .win-screen h1 {
-    font-size: 48px;
-    margin: 0 0 30px 0;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px #00f2fe;
-    animation: pop 1s cubic-bezier(0.68, -0.55, 0.265, 1.55), shine 3s ease-in-out infinite alternate;
     position: relative;
+    z-index: 1;
+
+    font-size: 60px;
+    margin-bottom: 10px;
+    color: #00ffcc;
+    text-shadow: 0 0 20px rgba(0, 255, 200, 0.8);
+
+    animation: pop 0.6s ease, shine 1.2s infinite alternate;
+}
+
+/* Confetti nhỏ cạnh chữ */
+.win-screen h1::before {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: radial-gradient(ellipse, var(--accent-yellow), transparent);
+    top: -8%;
+    right: -15%;
+    animation: confetti2 7s linear infinite 1.5s;
+    border-radius: 40%;
+    opacity: 0.75;
+}
+
+/* Moves text */
+.win-screen p {
+    position: relative;
+    z-index: 1;
+
+    font-size: 22px;
+    margin-bottom: 25px;
+    color: #ffffffcc;
+
+    animation: fadeInUp 0.6s ease;
+}
+
+/* ===== BUTTON ===== */
+.win-screen button {
+    position: relative;
+    z-index: 1;
+
+    margin: 10px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    transition: 0.3s;
+}
+
+.win-screen button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 150, 255, 0.8);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(15px, -15px) rotate(120deg);
+    }
+
+    66% {
+        transform: translate(-8px, 8px) rotate(240deg);
+    }
 }
 
 @keyframes pop {
     0% {
-        transform: scale(0.3) rotate(-10deg);
+        transform: scale(0.2) rotate(-5deg);
         opacity: 0;
     }
 
@@ -300,110 +725,41 @@ body {
     }
 
     100% {
-        transform: scale(1) rotate(0deg);
+        transform: scale(1);
         opacity: 1;
     }
 }
 
 @keyframes shine {
     0% {
-        filter: drop-shadow(0 0 5px #00f2fe);
+        filter: drop-shadow(0 0 4px var(--accent-yellow));
     }
 
     100% {
-        filter: drop-shadow(0 0 15px #4fe0a9);
+        filter: drop-shadow(0 0 12px var(--win-gradient-end));
     }
-}
-
-.win-screen p {
-    font-size: 24px;
-    margin-bottom: 40px;
-    opacity: 0.95;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 1.2s ease 0.6s both;
 }
 
 @keyframes fadeInUp {
     0% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px);
     }
 
     100% {
-        opacity: 0.95;
+        opacity: 0.97;
         transform: translateY(0);
     }
-}
-
-.win-screen button {
-    margin: 10px;
-    padding: 15px 35px;
-    border: none;
-    border-radius: 50px;
-    font-size: 20px;
-    cursor: pointer;
-    background: linear-gradient(145deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.9));
-    color: white;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    transition: all 0.4s ease;
-    position: relative;
-    animation: pulse 3s infinite;
-}
-
-.win-screen button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 242, 254, 0.4);
-    background: linear-gradient(145deg, #4facfe, #00f2fe);
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    50% {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 242, 254, 0.3);
-    }
-}
-
-/* Subtle confetti - chỉ 2 particles nhẹ */
-.win-screen::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: radial-gradient(circle, #ffd700, transparent);
-    border-radius: 50%;
-    animation: confetti1 5s linear infinite;
-    top: -5%;
-    left: 30%;
-    opacity: 0.8;
-}
-
-.win-screen h1::before {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: radial-gradient(ellipse, #ffcc00, transparent);
-    top: -10%;
-    right: -20%;
-    animation: confetti2 6s linear infinite 1s;
-    border-radius: 30%;
-    opacity: 0.7;
 }
 
 @keyframes confetti1 {
     0% {
         transform: translateY(0) rotate(0deg);
-        opacity: 0.8;
+        opacity: 0.85;
     }
 
     100% {
-        transform: translateY(120vh) rotate(360deg);
+        transform: translateY(130vh) rotate(360deg);
         opacity: 0;
     }
 }
@@ -411,11 +767,172 @@ body {
 @keyframes confetti2 {
     0% {
         transform: translate(0, 0) rotate(0deg);
-        opacity: 0.7;
+        opacity: 0.75;
     }
 
     100% {
-        transform: translate(40vw, 100vh) rotate(720deg);
+        transform: translate(35vw, 110vh) rotate(720deg);
         opacity: 0;
     }
+}
+
+/* ⚙️ nút bánh răng */
+#settings-btn {
+    position: fixed;
+    top: 5px;
+    right: 20px;
+
+    font-size: 28px;
+    cursor: pointer;
+
+    z-index: 9999;
+}
+
+/* nền mờ */
+#settings-panel {
+    display: none;
+    /* mặc định ẩn */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9998;
+}
+
+/* ẩn */
+.hidden {
+    display: none
+}
+
+/* hộp settings */
+.settings-box {
+    background: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.option {
+    margin: 15px 0;
+}
+
+/* ===== RETRO BUTTON (RESTART / AI / UNDO) ===== */
+.btn {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 10px !important;
+
+    padding: 14px 18px !important;
+
+    border-radius: 0 !important;
+    border: 3px solid #000 !important;
+
+    box-shadow: 4px 4px 0 #000 !important;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    image-rendering: pixelated;
+}
+
+/* ===== COLOR TỪNG NÚT ===== */
+.btn.restart {
+    background: #ff3d3d !important;
+    color: #fff !important;
+}
+
+.btn.ai {
+    background: #00c3ff !important;
+    color: #000 !important;
+}
+
+.btn.undo {
+    background: #ffd200 !important;
+    color: #000 !important;
+}
+
+/* ===== HOVER ===== */
+.btn:hover {
+    transform: translate(-3px, -3px) !important;
+    box-shadow: 6px 6px 0 #000 !important;
+}
+
+/* ===== CLICK ===== */
+.btn:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 2px 2px 0 #000 !important;
+}
+
+/* ===== RETRO SELECT BOX (ALGO CHOOSE) ===== */
+#algo-select {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 10px !important;
+    padding: 10px !important;
+    background: #222 !important;
+    color: #00ffcc !important;
+    border: 3px solid #000 !important;
+    box-shadow: 4px 4px 0 #000 !important;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    /* Ẩn mũi tên mặc định */
+    -webkit-appearance: none;
+    text-align: center;
+}
+
+#algo-select:hover {
+    border-color: #00ffcc !important;
+    color: #fff !important;
+}
+
+/* Container chứa các nút điều khiển để không bị lệch hàng */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    /* Cho phép tự xuống hàng trên màn hình nhỏ */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 95%;
+}
+
+/* Nút Gợi ý (Hint) - Nếu bạn muốn nó khác màu */
+.btn.hint {
+    background: #ab46da !important;
+    color: #fff !important;
+}
+
+/* Media query cho điện thoại để các nút không đè lên nhau */
+@media (max-width: 600px) {
+    .btn {
+        padding: 10px 12px !important;
+        font-size: 8px !important;
+    }
+
+    #algo-select {
+        font-size: 8px !important;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+
+#level {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: #ffffff;
+    z-index: 10;
+    padding-top: 70px;
+}
+
+#settings-panel.active {
+    display: flex;
 }

@@ -10,18 +10,30 @@
 
 <body>
 
+    <div id="settings-btn" onclick="toggleSettings()">⚙️</div>
+
+    <div id="settings-panel" class="hidden">
+        <div class="settings-box">
+            <h3>Options</h3>
+
+            <div class="option">
+                <span>Sound</span>
+                <button onclick="toggleSound()" id="sound-toggle">ON</button>
+            </div>
+
+            <button onclick="toggleSettings()">Close</button>
+        </div>
+    </div>
+
     <div id="game">
         <div id="menu">
             <div id="menu-heading"> Liquid Sort Game</div>
-
             <div class="lvl" id="easy" onclick="OpenLevel(0);">Easy</div>
             <div class="lvl" id="medium" onclick="OpenLevel(1);">Medium</div>
             <div class="lvl" id="hard" onclick="OpenLevel(2);">Hard</div>
             <div class="lvl" id="very-hard" onclick="OpenLevel(3);">Very Hard</div>
             <div class="lvl" id="impossible" onclick="OpenLevel(7);">Impossible</div>
-
             <br><br><br>
-
             <div id="rules-btn" onclick="ShowRules();">Rules</div>
         </div>
 
@@ -29,21 +41,18 @@
 
         <div id="rules-page">
             <div id="rules">
-
                 <div id="rules-heading">
                     Rules
                 </div>
-
                 <div id="rules-text">
                     Here is the write your game rules
                 </div>
-
                 <div id="back" onclick="HideRules();">
                     Back
                 </div>
-
             </div>
         </div>
+
     </div>
 
     <audio id="pourSound" src="pour.mp3"></audio>
@@ -51,5 +60,7 @@
 </body>
 
 <script type="text/javascript" src="style.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 </html>
