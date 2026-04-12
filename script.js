@@ -9,6 +9,8 @@ let testTubePosition = {
     7: [[-140, 100], [-60, 100], [20, 100], [100, 100], [-140, 275], [-60, 275], [20, 275], [100, 275], [-140, 450], [-60, 450], [20, 450], [100, 450]],
 };
 
+let levelNames = ["Easy", "Medium", "Hard", "Very Hard", "Impossible"];
+
 let history = [];
 
 let aiRunning = false;
@@ -25,6 +27,10 @@ let aiTimeout = null;
 
 let stopAll = false;
 
+let completedTubes = new Set();
+
+let selectedAlgo = "DFS";
+
 window.onload = function () {
     game = document.getElementById("game");
     level = document.getElementById("level");
@@ -34,6 +40,17 @@ window.onload = function () {
     }
     updateSoundButton();
 };
+
+function scalePositions(scaleX = 1.3, scaleY = 1.2) {
+    for (let key in testTubePosition) {
+        testTubePosition[key] = testTubePosition[key].map(([x, y]) => [
+            x * scaleX,
+            y * scaleY
+        ]);
+    }
+}
+
+scalePositions();
 
 function toggleSound() {
     soundEnabled = !soundEnabled;
@@ -90,11 +107,38 @@ window.OpenLevel = function (x) {
     ApplyInfo();
 };
 
+function checkCompletedTubes() {
+    for (let i = 0; i < water.length; i++) {
+        let tube = water[i];
+        let first = tube[0];
+
+        let isComplete =
+            first !== "transparent" &&
+            tube.every(c => c === first);
+
+        let el = document.getElementById(`tube-${i}`);
+        if (!el) continue;
+
+        if (isComplete) {
+            if (!completedTubes.has(i)) {
+                // 🎉 lần đầu → animate
+                el.classList.add("completed");
+                completedTubes.add(i);
+            } else {
+                // 🧊 lần sau → chỉ giữ trạng thái (không animate lại)
+                el.classList.add("completed-static");
+            }
+        }
+    }
+}
+
 function ApplyInfo(a = water) {
     if (won) return;
     let d = 0;
+
+    let name = levelNames[Math.min(currentLevel, levelNames.length - 1)];
     level.innerHTML = `<div class="hud">
-        <div>Level: ${currentLevel}</div>
+        <div>Level: ${name}</div>
         <div>Moves: ${moves}</div>
     </div>`;
 
@@ -109,19 +153,31 @@ function ApplyInfo(a = water) {
     }
 
     level.innerHTML += `<div class="controls">
-        <select id="algo-select" class="btn">
-            <option value="DFS">AI: DFS</option>
-            <option value="BFS">AI: BFS</option>
-            <option value="A_STAR">AI: A*</option>
-        </select>
+            <select id="algo-select" class="btn">
+                <option value="DFS">AI: DFS</option>
+                <option value="BFS">AI: BFS</option>
+                <option value="A_STAR">AI: A*</option>
+            </select>
 
-        <button class="btn ai" onclick="AI_Solve()">AI Solve</button>
-        <button class="btn hint" onclick="Hint()">Hint</button>
-        <button class="btn undo" onclick="Undo()">Undo</button>
-        <button class="btn restart" onclick="Restart()">Restart</button>
-    </div>`;
+            <button id="ai-solve" class="btn ai" onclick="AI_Solve()">AI Solve</button>
+            <button class="btn hint" onclick="Hint()">Hint</button>
+            <button class="btn undo" onclick="Undo()">Undo</button>
+            <button class="btn restart" onclick="Restart()">Restart</button>
+
+            
+        </div>`;
+    setTimeout(() => {
+        let select = document.getElementById("algo-select");
+        if (select) {
+            select.value = selectedAlgo;
+            select.onchange = function () {
+                selectedAlgo = this.value;
+            };
+        }
+    }, 0);
 
     InitStream();
+    checkCompletedTubes();
 }
 
 let streamElement = null;
@@ -154,6 +210,7 @@ function AnimateAndTransfer(a, b) {
     }
     saveState();
     let topA = water[a].findLastIndex(c => c !== "transparent");
+    if (water[a].every(c => c === water[a][0] && c !== "transparent")) return;
     if (topA === -1) return;
     let colorA = water[a][topA];
     let topB = water[b].findLastIndex(c => c !== "transparent");
@@ -253,27 +310,35 @@ function clearHighlight() {
 window.Clicked = function (x) {
     if (transferring || won || aiRunning) return;
     InitStream();
-    if (clicked.length > 1) clicked = [];
 
     let tubeElement = document.getElementById(`tube-${x}`);
+
+    // clear tất cả selected
+    document.querySelectorAll('.test-tube').forEach(t => {
+        t.classList.remove("selected");
+    });
+
     if (clicked.length === 0) {
+        if (water[x].every(c => c === c[0] && c !== "transparent")) return;
         if (water[x].every(c => c === "transparent")) return;
-        clicked.push(x);
+
+        clicked = [x];
         tubeElement.classList.add("selected");
+
     } else {
         let from = clicked[0];
-        let fromElement = document.getElementById(`tube-${from}`);
+
         if (from === x) {
-            fromElement.classList.remove("selected");
             clicked = [];
-        } else {
-            AnimateAndTransfer(from, x);
-            clicked = [];
+            return;
         }
+        AnimateAndTransfer(from, x);
+        clicked = [];
     }
 };
 
 function Transfer(a, b) {
+    if (water[a].every(c => c === water[a][0] && c !== "transparent")) return;
     saveState();
 
     let topA = water[a].findLastIndex(c => c !== "transparent");
@@ -312,11 +377,11 @@ function Won() {
     if (isVictory(water)) {
         won = true;
         level.innerHTML = `<div class="win-screen">
-            <h1> YOU WIN </h1>
-            <p>Moves: ${moves}</p>
-            <button onclick="OpenLevel(${currentLevel + 1})">Next Level</button>
-            <button onclick="Restart()">Play Again</button>
-        </div>`;
+                <h1> YOU WIN </h1>
+                <p>Moves: ${moves}</p>
+                <button onclick="OpenLevel(${currentLevel + 1})">Next Level</button>
+                <button onclick="Restart()">Play Again</button>
+            </div>`;
 
         if (soundEnabled) {
             document.getElementById("winSound").play();
@@ -340,6 +405,9 @@ function getHash(state) {
 }
 
 function canMove(state, from, to) {
+    if (state[from].every(c => c === state[from][0] && c !== "transparent")) {
+        return false;
+    }
     let A = state[from];
     let B = state[to];
     let topA = A.findLastIndex(c => c !== "transparent");
@@ -516,7 +584,7 @@ window.AI_Solve = function () {
     aiRunning = true;
 
     let btn = document.getElementById("ai-solve");
-    let algo = document.getElementById("algo-select").value;
+    let algo = selectedAlgo;
     if (btn) btn.innerText = "Thinking (" + algo + ")...";
 
     setTimeout(() => {
@@ -583,15 +651,16 @@ window.Restart = function () {
     currentHintSolution = [];
     currentHintMove = null;
     hintIndex = 0;
-
+    history = [];
     moves = 0;
     won = false;
     clicked = [];
     transferring = false;
     water = w.map(r => [...r]);
-    ApplyInfo();
-};
 
+    ApplyInfo();
+    completedTubes.clear();
+};
 // Undo
 function saveState() {
     history.push(water.map(r => [...r]));
@@ -604,7 +673,6 @@ window.Undo = function () {
     if (history.length === 0) return;
     if (!transferring) {
         water = history.pop();
-        if (moves > 0) moves--;
         currentHintSolution = [];
         currentHintMove = null;
         hintIndex = 0;
@@ -735,3 +803,10 @@ function handleNoSolution() {
     alert("Thế trận này có thể bị kẹt");
 }
 
+function ShowRules() {
+    document.getElementById("rules-page").style.display = "flex";
+}
+
+function HideRules() {
+    document.getElementById("rules-page").style.display = "none";
+}

@@ -348,6 +348,74 @@ body {
     z-index: 100;
 }
 
+/* ===== HOÀN THÀNH ỐNG ===== */
+.test-tube.completed {
+    animation: celebrate 1s ease forwards;
+    box-shadow:
+        0 0 20px #00ffcc,
+        0 0 40px #00ffcc,
+        0 0 60px #00ffcc;
+}
+
+/* glow + scale nhẹ */
+@keyframes celebrate {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15) rotate(2deg);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+/* ===== NẮP CHAI ===== */
+.test-tube::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) scaleY(0);
+    width: 70%;
+    height: 15px;
+    background: #ccc;
+    border-radius: 5px 5px 0 0;
+    transition: 0.4s ease;
+}
+
+/* Khi hoàn thành → đóng nắp */
+/* animation chỉ chạy 1 lần */
+.test-tube.completed {
+    animation: celebrate 1s ease;
+}
+
+/* trạng thái sau khi xong */
+.test-tube.completed-static {
+    box-shadow:
+        0 0 20px #00ffcc,
+        0 0 40px #00ffcc;
+}
+
+@keyframes sparkleTube {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+}
+
 .pouring-stream {
     position: fixed;
     width: 10px;
@@ -430,6 +498,7 @@ body {
         opacity: 0.3;
     }
 }
+
 
 .colors {
     position: absolute;
@@ -806,11 +875,6 @@ body {
     z-index: 9998;
 }
 
-/* ẩn */
-.hidden {
-    display: none
-}
-
 /* hộp settings */
 .settings-box {
     background: #222;
@@ -896,10 +960,9 @@ body {
 .controls {
     display: flex;
     flex-wrap: wrap;
-    /* Cho phép tự xuống hàng trên màn hình nhỏ */
-    justify-content: center;
+    justify-content: space-between;
+    /* 🔥 key chính */
     align-items: center;
-    gap: 10px;
     width: 95%;
 }
 
@@ -928,11 +991,56 @@ body {
     display: none;
     position: fixed;
     inset: 0;
-    background-color: #ffffff;
+    background-image: url("backgroundgame.png");
     z-index: 10;
     padding-top: 70px;
 }
 
 #settings-panel.active {
     display: flex;
+}
+
+#rules-page {
+    display: none;
+    /* mặc định ẩn */
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+}
+
+#rules {
+    background: #222;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#rules-text {
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #ffffffcc;
+}
+
+#rules-text ul {
+    padding-left: 20px;
+}
+
+#rules-text li {
+    margin-bottom: 10px;
+    padding-left: 5px;
+    transition: 0.2s;
+}
+
+#rules-text li:hover {
+    color: #00ffcc;
+    transform: translateX(5px);
 }
