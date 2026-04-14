@@ -66,7 +66,7 @@ function toggleSettings() {
 function updateSoundButton() {
     let btn = document.getElementById("sound-toggle");
     if (!btn) return;
-    btn.innerText = soundEnabled ? "ON 🔊" : "OFF 🔇";
+    btn.innerText = soundEnabled ? "ON" : "OFF";
 }
 
 window.OpenLevel = function (x) {
@@ -153,19 +153,18 @@ function ApplyInfo(a = water) {
     }
 
     level.innerHTML += `<div class="controls">
-            <select id="algo-select" class="btn">
-                <option value="DFS">AI: DFS</option>
-                <option value="BFS">AI: BFS</option>
-                <option value="A_STAR">AI: A*</option>
-            </select>
+        <select id="algo-select" class="btn">
+            <option value="DFS">AI: DFS</option>
+            <option value="BFS">AI: BFS</option>
+            <option value="A_STAR">AI: A*</option>
+        </select>
 
-            <button id="ai-solve" class="btn ai" onclick="AI_Solve()">AI Solve</button>
-            <button class="btn hint" onclick="Hint()">Hint</button>
-            <button class="btn undo" onclick="Undo()">Undo</button>
-            <button class="btn restart" onclick="Restart()">Restart</button>
-
-            
-        </div>`;
+        <button id="ai-solve" class="btn ai" onclick="AI_Solve()">AI Solve</button>
+        <button class="btn hint" onclick="Hint()">Hint</button>
+        <button class="btn undo" onclick="Undo()">Undo</button>
+        <button class="btn restart" onclick="Restart()">Restart</button>
+        <button class="btn home" onclick="goHome()">Home</button>
+    </div>`;
     setTimeout(() => {
         let select = document.getElementById("algo-select");
         if (select) {
@@ -180,6 +179,11 @@ function ApplyInfo(a = water) {
     checkCompletedTubes();
 }
 
+function goHome() {
+    if (confirm("Bạn có chắc muốn quay về trang chính không? Tiến trình hiện tại sẽ bị mất!")) {
+        window.location.href = "start.html";
+    }
+}
 let streamElement = null;
 
 function InitStream() {
@@ -195,7 +199,7 @@ function InitStream() {
 
 function AnimateAndTransfer(a, b) {
     if (transferring) return;
-    currentHintSolution = [];
+
     if (currentHintMove) {
         let [hFrom, hTo] = currentHintMove;
 
@@ -298,12 +302,9 @@ function AnimateAndTransfer(a, b) {
     }, 500);
 }
 
-
 function clearHighlight() {
     document.querySelectorAll('.test-tube').forEach(t => {
-        t.classList.remove("highlight");
-        t.classList.remove("hint-from");
-        t.classList.remove("hint-to");
+        t.classList.remove("highlight", "hint-from", "hint-to", "hint-soft-from", "hint-soft-to");
     });
 }
 
@@ -376,10 +377,13 @@ function Transfer(a, b) {
 function Won() {
     if (isVictory(water)) {
         won = true;
+
+        let isLastLevel = currentLevel >= levelNames.length - 1;
+
         level.innerHTML = `<div class="win-screen">
                 <h1> YOU WIN </h1>
                 <p>Moves: ${moves}</p>
-                <button onclick="OpenLevel(${currentLevel + 1})">Next Level</button>
+                ${!isLastLevel ? `<button onclick="OpenLevel(${currentLevel + 1})">Next Level</button>` : ""}
                 <button onclick="Restart()">Play Again</button>
             </div>`;
 
@@ -639,6 +643,11 @@ function executeSolution(sol) {
 }
 
 window.Restart = function () {
+
+    if (!won) {
+        if (!confirm("Bạn có chắc muốn chơi lại level này không?")) return;
+    }
+
     aiRunning = false;
 
     if (aiTimeout) {
@@ -658,8 +667,9 @@ window.Restart = function () {
     transferring = false;
     water = w.map(r => [...r]);
 
-    ApplyInfo();
     completedTubes.clear();
+
+    ApplyInfo();
 };
 // Undo
 function saveState() {
@@ -691,14 +701,12 @@ window.Hint = function () {
 
     setTimeout(() => {
 
-        if (currentHintSolution.length === 0) {
+        if (!currentHintSolution || currentHintSolution.length === 0) {
             currentHintSolution = solveBFS(water);
             hintIndex = 0;
         }
 
         if (!currentHintSolution || hintIndex >= currentHintSolution.length) {
-
-            // 👉 fallback nếu BFS fail
             let fallback = getFallbackMove(water);
 
             if (fallback) {

@@ -846,18 +846,33 @@ body {
 }
 
 /* ⚙️ nút bánh răng */
+
 #settings-btn {
     position: fixed;
-    top: 5px;
+    top: 4px;
     right: 20px;
 
-    font-size: 28px;
-    cursor: pointer;
+    font-size: 26px;
+    color: white;
 
+    padding: 10px;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+
+    cursor: pointer;
     z-index: 9999;
+
+    transition: all 0.25s ease;
 }
 
-/* nền mờ */
+#settings-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* ===== OVERLAY ===== */
 #settings-panel {
     display: none;
     /* mặc định ẩn */
@@ -868,24 +883,113 @@ body {
     height: 100%;
 
     background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
 
     justify-content: center;
     align-items: center;
 
     z-index: 9998;
+
+    animation: fadeIn 0.3s ease;
 }
 
-/* hộp settings */
+/* ===== SETTINGS BOX ===== */
 .settings-box {
-    background: #222;
+    background: rgba(30, 30, 30, 0.95);
     color: white;
-    padding: 20px;
-    border-radius: 10px;
+
+    padding: 25px 30px;
+    border-radius: 15px;
+
     text-align: center;
+
+    min-width: 300px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    animation: scaleUp 0.3s ease;
 }
 
+/* ===== OPTION ===== */
 .option {
-    margin: 15px 0;
+    margin: 18px 0;
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== TEXT / LABEL ===== */
+.option label {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* ===== INPUT / SELECT ===== */
+.option select,
+.option input {
+    margin-top: 8px;
+    padding: 6px 10px;
+
+    border-radius: 6px;
+    border: none;
+
+    outline: none;
+
+    background: #111;
+    color: white;
+}
+
+/* ===== BUTTON (nếu có) ===== */
+.settings-box button {
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.settings-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* ===== RETRO BUTTON (RESTART / AI / UNDO) ===== */
@@ -961,7 +1065,6 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    /* 🔥 key chính */
     align-items: center;
     width: 95%;
 }
@@ -970,6 +1073,10 @@ body {
 .btn.hint {
     background: #ab46da !important;
     color: #fff !important;
+}
+
+.btn.home {
+    background: rgba(0, 180, 60, 1);
 }
 
 /* Media query cho điện thoại để các nút không đè lên nhau */
