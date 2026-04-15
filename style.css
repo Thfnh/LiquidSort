@@ -89,7 +89,7 @@ body {
     width: 100%;
     height: 70px;
     background: var(--accent-yellow);
-    font-size: 30px;
+    font-size: 48px;
     line-height: 70px;
     text-align: center;
     font-weight: 700;
@@ -141,6 +141,7 @@ body {
 
 /* LEVEL BUTTON */
 .lvl {
+    top: 20px;
     width: 85%;
     max-width: 400px;
     margin: 20px 0;
@@ -232,7 +233,7 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 220px;
+    width: 150px;
     height: 55px;
     background:
         linear-gradient(145deg, #fc1c2b, #ab46da),
@@ -240,7 +241,7 @@ body {
     border-radius: 25px 25px 0 0;
     text-align: center;
     line-height: 55px;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 500;
     font-family: 'Raleway', sans-serif;
     cursor: pointer;
@@ -849,16 +850,15 @@ body {
 
 #settings-btn {
     position: fixed;
-    top: 4px;
-    right: 20px;
+    top: 3px;
+    right: 10px;
 
-    font-size: 26px;
+    font-size: 30px;
     color: white;
 
     padding: 10px;
     border-radius: 50%;
 
-    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(6px);
 
     cursor: pointer;
@@ -869,7 +869,6 @@ body {
 
 #settings-btn:hover {
     transform: rotate(90deg) scale(1.1);
-    background: rgba(0, 0, 0, 0.7);
 }
 
 /* ===== OVERLAY ===== */
@@ -881,15 +880,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-
-    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
-
     justify-content: center;
     align-items: center;
-
     z-index: 9998;
-
     animation: fadeIn 0.3s ease;
 }
 
@@ -1093,7 +1087,6 @@ body {
     }
 }
 
-
 #level {
     display: none;
     position: fixed;
@@ -1132,7 +1125,7 @@ body {
 
 #rules-text {
     text-align: left;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 1.8;
     color: #ffffffcc;
 }
@@ -1150,4 +1143,55 @@ body {
 #rules-text li:hover {
     color: #00ffcc;
     transform: translateX(5px);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(12, 4, 4, 0.7);
+    backdrop-filter: blur(6px);
+
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: #111;
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0 #794242;
+
+    font-size: 30px;
+    font-family: 'Russo One', 'Press Start 2P', sans-serif;
+}
+
+.popup-actions {
+    margin-top: 20px;
+}
+
+.popup-actions button {
+    margin: 10px;
+    padding: 10px 15px;
+
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #000;
+
+    cursor: pointer;
+}
+
+.popup-actions button:hover {
+    transform: translate(-2px, -2px);
+}
+
+.popup-actions button:active {
+    transform: translate(2px, 2px);
 }
