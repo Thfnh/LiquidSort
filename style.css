@@ -326,16 +326,43 @@ body {
 /* TEST TUBE */
 .test-tube {
     position: absolute;
-    width: 60px;
-    height: 150px;
-    border: 3px solid #bbb;
-    border-radius: 0 0 30px 30px;
-    background-color: rgba(255, 255, 255, 0.1);
+    width: 50px;
+    height: 160px;
+
+    /* Viền ống */
+    border: 3px solid #ddd;
+
+    /* Bo đáy tròn + thân thon */
+    border-radius: 0 0 25px 25px;
+
+    /* Nền trong suốt */
+    background: rgba(255, 255, 255, 0.05);
+
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     z-index: 1;
+
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform-origin: top left;
+}
+
+.test-tube::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    /* hạ xuống gần thân hơn */
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 55px;
+    height: 10px;
+    /* thấp hơn */
+
+    border: 3px solid #ddd;
+    border-bottom: none;
+
+    border-radius: 6px 6px 0 0;
+    background: transparent;
 }
 
 .test-tube.selected {
@@ -373,18 +400,20 @@ body {
     }
 }
 
-/* ===== NẮP CHAI ===== */
 .test-tube::after {
     content: '';
     position: absolute;
-    top: -20px;
+    top: 0;
     left: 50%;
-    transform: translateX(-50%) scaleY(0);
-    width: 70%;
-    height: 15px;
-    background: #ccc;
-    border-radius: 5px 5px 0 0;
-    transition: 0.4s ease;
+    transform: translateX(-50%);
+
+    width: 65%;
+    height: 9px;
+
+    border-left: 3px solid #ddd;
+    border-right: 3px solid #ddd;
+
+    background: transparent;
 }
 
 /* Khi hoàn thành → đóng nắp */
@@ -435,71 +464,78 @@ body {
 }
 
 /* Gợi ý nhẹ - ống nguồn */
+/* ===== HINT SOURCE (FROM) ===== */
 .test-tube.hint-soft-from {
-    border-color: rgba(227, 143, 6, 0.5);
+    border-color: rgba(255, 170, 0, 0.85);
 
     box-shadow:
-        0 0 8px rgba(251, 231, 98, 0.4);
+        0 0 8px rgba(255, 200, 0, 0.6),
+        0 0 16px rgba(255, 200, 0, 0.4);
+
+    transform: translateY(-6px);
+
+    animation: hintFrom 1.4s ease-in-out infinite;
+}
+
+/* ===== HINT TARGET (TO) ===== */
+.test-tube.hint-soft-to {
+    border-color: rgba(0, 230, 130, 0.85);
+
+    box-shadow:
+        0 0 8px rgba(0, 255, 150, 0.6),
+        0 0 16px rgba(0, 255, 150, 0.4);
 
     transform: translateY(-5px);
-    /* nhẹ thôi */
+
+    animation: hintTo 1.4s ease-in-out infinite;
 }
 
-/* Gợi ý nhẹ - ống nhận */
-.test-tube.hint-soft-to {
-    border-color: rgba(6, 231, 55, 0.5);
+/* ===== ANIMATION ===== */
 
-    box-shadow:
-        0 0 8px rgba(241, 2, 153, 0.4);
-
-    transform: translateY(-3px);
-}
-
-.test-tube.hint-soft-from,
-.test-tube.hint-soft-to {
-    animation: hintFade 2s ease forwards;
-}
-
-@keyframes shake {
+/* FROM: rung rõ hơn + glow mạnh hơn */
+@keyframes hintFrom {
     0% {
-        transform: translateX(0);
+        transform: translateY(-6px) translateX(0);
+        box-shadow: 0 0 6px rgba(255, 200, 0, 0.5);
     }
 
     25% {
-        transform: translateX(-3px);
+        transform: translateY(-6px) translateX(-3px);
     }
 
     50% {
-        transform: translateX(3px);
+        transform: translateY(-6px) translateX(3px);
+        box-shadow:
+            0 0 14px rgba(255, 200, 0, 0.8),
+            0 0 25px rgba(255, 200, 0, 0.5);
     }
 
     75% {
-        transform: translateX(-3px);
+        transform: translateY(-6px) translateX(-3px);
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateY(-6px) translateX(0);
+        box-shadow: 0 0 6px rgba(255, 200, 0, 0.5);
     }
 }
 
-.test-tube.hint-soft-from {
-    animation: shake 0.5s infinite;
-}
-
-@keyframes hintFade {
+/* TO: pulse rõ hơn */
+@keyframes hintTo {
     0% {
-        opacity: 0.3;
+        box-shadow: 0 0 6px rgba(0, 255, 150, 0.4);
     }
 
     50% {
-        opacity: 1;
+        box-shadow:
+            0 0 14px rgba(0, 255, 150, 0.8),
+            0 0 25px rgba(0, 255, 150, 0.5);
     }
 
     100% {
-        opacity: 0.3;
+        box-shadow: 0 0 6px rgba(0, 255, 150, 0.4);
     }
 }
-
 
 .colors {
     position: absolute;

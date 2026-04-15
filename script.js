@@ -41,7 +41,7 @@ window.onload = function () {
     updateSoundButton();
 };
 
-function scalePositions(scaleX = 1.3, scaleY = 1.2) {
+function scalePositions(scaleX = 1.8, scaleY = 1.2) {
     for (let key in testTubePosition) {
         testTubePosition[key] = testTubePosition[key].map(([x, y]) => [
             x * scaleX,
