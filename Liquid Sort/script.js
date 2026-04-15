@@ -1,6 +1,5 @@
-// ==========================================
-// 1. BIẾN TOÀN CỤC (GLOBAL VARIABLES)
-// ==========================================
+//BIẾN TOÀN CỤC
+
 let game, level, color = ["red", "blue", "yellow", "green", "purple", "lightgrey", "lightblue", "orange", "brown", "pink"],
     water = [], w = [], currentLevel, clicked = [], transferring = false, won = false, moves = 0;
 
@@ -15,22 +14,31 @@ let testTubePosition = {
 let levelNames = ["Easy", "Medium", "Hard", "Very Hard", "Impossible"];
 
 let history = [];
+
 let aiRunning = false;
+
 let soundEnabled = true;
+
 let currentHintSolution = [];
+
 let currentHintMove = null;
+
 let hintIndex = 0;
+
 let aiTimeout = null;
+
 let stopAll = false;
+
 let completedTubes = new Set();
+
 let selectedAlgo = "DFS";
+
 let confirmCallback = null;
+
 let streamElement = null;
 
+//KHỞI TẠO VÀ CÀI ĐẶT GIAO DIỆN (UI & SETTINGS)
 
-// ==========================================
-// 2. KHỞI TẠO VÀ CÀI ĐẶT GIAO DIỆN (UI & SETTINGS)
-// ==========================================
 window.onload = function () {
     game = document.getElementById("game");
     level = document.getElementById("level");
@@ -110,10 +118,8 @@ function goToGame() {
     window.location.href = "game.html";
 }
 
+//QUẢN LÝ GAME & HIỂN THỊ (LEVEL & RENDERING)
 
-// ==========================================
-// 3. QUẢN LÝ GAME & HIỂN THỊ (LEVEL & RENDERING)
-// ==========================================
 window.OpenLevel = function (x) {
     moves = 0;
     currentLevel = x;
@@ -233,17 +239,14 @@ function InitStream() {
     }
 }
 
+// CƠ CHẾ  GAME 
 
-// ==========================================
-// 4. CƠ CHẾ CHƠI GAME & ĐIỀU KHIỂN LỊCH SỬ (GAMEPLAY MECHANICS)
-// ==========================================
 window.Clicked = function (x) {
     if (transferring || won || aiRunning) return;
     InitStream();
 
     let tubeElement = document.getElementById(`tube-${x}`);
 
-    // clear tất cả selected
     document.querySelectorAll('.test-tube').forEach(t => {
         t.classList.remove("selected");
     });
@@ -272,17 +275,17 @@ function isSameState(s1, s2) {
 }
 
 function isStateInSolutionPath(state, solution) {
-    let current = w.map(r => [...r]); // trạng thái ban đầu
+    let current = w.map(r => [...r]);
 
     for (let i = 0; i < solution.length; i++) {
         current = simulateMove(current, solution[i][0], solution[i][1]);
 
         if (isSameState(current, state)) {
-            return i + 1; // vị trí đúng trong path
+            return i + 1;
         }
     }
 
-    return -1; // không nằm trong lời giải
+    return -1;
 }
 
 function AnimateAndTransfer(a, b) {
@@ -516,10 +519,8 @@ window.Restart = function () {
     doRestart();
 };
 
+// AI SYSTEM
 
-// ==========================================
-// 5. HỆ THỐNG AI & TÌM KIẾM ĐƯỜNG ĐI (AI SYSTEM & PATHFINDING)
-// ==========================================
 function getHash(state) {
     let sorted = state.map(t => [...t]).sort((a, b) => a.join('').localeCompare(b.join('')));
     return sorted.map(t => t.map(c => c === "transparent" ? "0" : c[0]).join('')).join('|');
@@ -757,10 +758,8 @@ function executeSolution(sol) {
     step();
 }
 
+//(HINT SYSTEM)
 
-// ==========================================
-// 6. HỆ THỐNG GỢI Ý (HINT SYSTEM)
-// ==========================================
 window.Hint = function () {
     if (transferring || won || aiRunning) return;
 
