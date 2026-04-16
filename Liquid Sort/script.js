@@ -116,6 +116,12 @@ function goToGame() {
 //QUẢN LÝ GAME & HIỂN THỊ (LEVEL & RENDERING)
 
 window.OpenLevel = function (x) {
+    history = [];
+    currentHintSolution = [];
+    currentHintMove = null;
+    hintIndex = 0;
+    completedTubes.clear();
+    clicked = [];
     moves = 0;
     currentLevel = x;
     won = false;
