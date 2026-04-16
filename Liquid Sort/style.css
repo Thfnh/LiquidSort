@@ -44,7 +44,6 @@ body {
     }
 }
 
-/* MENU - Tăng độ đậm cho background */
 #menu {
     position: absolute;
     inset: 0;
@@ -84,7 +83,6 @@ body {
     }
 }
 
-/* Các phần khác giữ nguyên... */
 #menu-heading {
     width: 100%;
     height: 70px;
@@ -139,7 +137,6 @@ body {
     }
 }
 
-/* LEVEL BUTTON */
 .lvl {
     top: 20px;
     width: 85%;
@@ -154,10 +151,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* 🔥 GAME FONT PIXEL RETRO */
     font-family: 'Press Start 2P', 'Russo One', monospace;
     font-size: 16px;
-    /* Nhỏ hơn cho pixel style */
     font-weight: 400;
     line-height: 1.1;
     text-shadow:
@@ -165,7 +160,6 @@ body {
         3px 3px 0px rgba(0, 0, 0, 0.4);
     text-transform: uppercase;
     border-radius: 12px;
-    /* Bo góc ít hơn cho retro */
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow:
@@ -179,7 +173,6 @@ body {
     backdrop-filter: blur(20px);
     border: 3px solid rgba(255, 255, 255, 0.8);
     border-bottom: 5px solid rgba(0, 150, 50, 0.9);
-    /* PIXEL GAMING EFFECTS */
     image-rendering: pixelated;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
@@ -209,7 +202,6 @@ body {
         0 0 0 1px rgba(255, 255, 255, 0.8);
     border-color: rgba(255, 255, 255, 1);
     border-bottom: 5px solid rgba(0, 180, 60, 1);
-    /* TEXT HOVER EFFECT */
     font-size: 17px;
     text-shadow:
         3px 3px 0px rgba(0, 0, 0, 0.8),
@@ -227,7 +219,6 @@ body {
     font-size: 16px;
 }
 
-/* Các phần còn lại giữ nguyên */
 #rules-btn {
     position: fixed;
     bottom: 0;
@@ -320,28 +311,17 @@ body {
     width: 100vw;
 }
 
-/* GAME AREA */
-
-
 /* TEST TUBE */
 .test-tube {
     position: absolute;
     width: 50px;
     height: 160px;
-
-    /* Viền ống */
     border: 3px solid #ddd;
-
-    /* Bo đáy tròn + thân thon */
     border-radius: 0 0 25px 25px;
-
-    /* Nền trong suốt */
     background: rgba(255, 255, 255, 0.05);
-
     overflow: hidden;
     cursor: pointer;
     z-index: 1;
-
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform-origin: top left;
 }
@@ -350,17 +330,12 @@ body {
     content: '';
     position: absolute;
     top: -6px;
-    /* hạ xuống gần thân hơn */
     left: 50%;
     transform: translateX(-50%);
-
     width: 55px;
     height: 10px;
-    /* thấp hơn */
-
     border: 3px solid #ddd;
     border-bottom: none;
-
     border-radius: 6px 6px 0 0;
     background: transparent;
 }
@@ -376,7 +351,6 @@ body {
     z-index: 100;
 }
 
-/* ===== HOÀN THÀNH ỐNG ===== */
 .test-tube.completed {
     animation: celebrate 1s ease forwards;
     box-shadow:
@@ -385,7 +359,6 @@ body {
         0 0 60px #00ffcc;
 }
 
-/* glow + scale nhẹ */
 @keyframes celebrate {
     0% {
         transform: scale(1);
@@ -416,13 +389,10 @@ body {
     background: transparent;
 }
 
-/* Khi hoàn thành → đóng nắp */
-/* animation chỉ chạy 1 lần */
 .test-tube.completed {
     animation: celebrate 1s ease;
 }
 
-/* trạng thái sau khi xong */
 .test-tube.completed-static {
     box-shadow:
         0 0 20px #00ffcc,
@@ -463,8 +433,6 @@ body {
     height: 100px;
 }
 
-/* Gợi ý nhẹ - ống nguồn */
-/* ===== HINT SOURCE (FROM) ===== */
 .test-tube.hint-soft-from {
     border-color: rgba(255, 170, 0, 0.85);
 
@@ -477,7 +445,6 @@ body {
     animation: hintFrom 1.4s ease-in-out infinite;
 }
 
-/* ===== HINT TARGET (TO) ===== */
 .test-tube.hint-soft-to {
     border-color: rgba(0, 230, 130, 0.85);
 
@@ -490,9 +457,6 @@ body {
     animation: hintTo 1.4s ease-in-out infinite;
 }
 
-/* ===== ANIMATION ===== */
-
-/* FROM: rung rõ hơn + glow mạnh hơn */
 @keyframes hintFrom {
     0% {
         transform: translateY(-6px) translateX(0);
@@ -520,7 +484,6 @@ body {
     }
 }
 
-/* TO: pulse rõ hơn */
 @keyframes hintTo {
     0% {
         box-shadow: 0 0 6px rgba(0, 255, 150, 0.4);
@@ -616,7 +579,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* WIN SCREEN - Đồng bộ theme, font mềm */
 .win-screen {
     position: fixed;
     top: 0;
@@ -676,7 +638,6 @@ body {
     }
 }
 
-
 /* ===== WIN SCREEN ===== */
 .win-screen {
     position: fixed;
@@ -690,17 +651,13 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     color: white;
     text-align: center;
     z-index: 999;
     animation: fadeIn 0.5s ease;
-
     overflow: hidden;
-    /* tránh confetti tràn */
 }
 
-/* Lớp nền hiệu ứng */
 .win-screen::before {
     content: '';
     position: absolute;
@@ -714,7 +671,6 @@ body {
     z-index: 0;
 }
 
-/* Confetti */
 .win-screen::after {
     content: '';
     position: absolute;
@@ -729,7 +685,6 @@ body {
     z-index: 0;
 }
 
-/* ===== TEXT ===== */
 .win-screen h1 {
     position: relative;
     z-index: 1;
@@ -742,7 +697,6 @@ body {
     animation: pop 0.6s ease, shine 1.2s infinite alternate;
 }
 
-/* Confetti nhỏ cạnh chữ */
 .win-screen h1::before {
     content: '';
     position: absolute;
@@ -756,7 +710,6 @@ body {
     opacity: 0.75;
 }
 
-/* Moves text */
 .win-screen p {
     position: relative;
     z-index: 1;
@@ -768,7 +721,6 @@ body {
     animation: fadeInUp 0.6s ease;
 }
 
-/* ===== BUTTON ===== */
 .win-screen button {
     position: relative;
     z-index: 1;
@@ -790,7 +742,6 @@ body {
     box-shadow: 0 0 15px rgba(0, 150, 255, 0.8);
 }
 
-/* ===== ANIMATION ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -881,8 +832,6 @@ body {
     }
 }
 
-/* ⚙️ nút bánh răng */
-
 #settings-btn {
     position: fixed;
     top: 3px;
@@ -906,10 +855,8 @@ body {
     transform: rotate(90deg) scale(1.1);
 }
 
-/* ===== OVERLAY ===== */
 #settings-panel {
     display: none;
-    /* mặc định ẩn */
     position: fixed;
     top: 0;
     left: 0;
@@ -922,20 +869,15 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-/* ===== SETTINGS BOX ===== */
 .settings-box {
     background: rgba(30, 30, 30, 0.95);
     color: white;
     padding: 25px 30px;
     border-radius: 15px;
-
     text-align: center;
-
     min-width: 300px;
-
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
-
     animation: scaleUp 0.3s ease;
 }
 
@@ -955,13 +897,11 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* ===== TEXT / LABEL ===== */
 .option label {
     font-size: 14px;
     letter-spacing: 0.5px;
 }
 
-/* ===== INPUT / SELECT ===== */
 .option select,
 .option input {
     margin-top: 8px;
@@ -976,7 +916,6 @@ body {
     color: white;
 }
 
-/* ===== BUTTON (nếu có) ===== */
 .settings-box button {
     margin-top: 15px;
     padding: 10px 20px;
@@ -997,8 +936,6 @@ body {
     box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
 }
 
-
-/* ===== ANIMATION ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1021,7 +958,6 @@ body {
     }
 }
 
-/* ===== RETRO BUTTON (RESTART / AI / UNDO) ===== */
 .btn {
     font-family: 'Press Start 2P', monospace !important;
     font-size: 10px !important;
@@ -1039,7 +975,6 @@ body {
     image-rendering: pixelated;
 }
 
-/* ===== COLOR TỪNG NÚT ===== */
 .btn.restart {
     background: #ff3d3d !important;
     color: #fff !important;
@@ -1055,19 +990,16 @@ body {
     color: #000 !important;
 }
 
-/* ===== HOVER ===== */
 .btn:hover {
     transform: translate(-3px, -3px) !important;
     box-shadow: 6px 6px 0 #000 !important;
 }
 
-/* ===== CLICK ===== */
 .btn:active {
     transform: translate(2px, 2px) !important;
     box-shadow: 2px 2px 0 #000 !important;
 }
 
-/* ===== RETRO SELECT BOX (ALGO CHOOSE) ===== */
 #algo-select {
     font-family: 'Press Start 2P', monospace !important;
     font-size: 10px !important;
@@ -1079,7 +1011,6 @@ body {
     outline: none;
     cursor: pointer;
     appearance: none;
-    /* Ẩn mũi tên mặc định */
     -webkit-appearance: none;
     text-align: center;
 }
@@ -1089,7 +1020,6 @@ body {
     color: #fff !important;
 }
 
-/* Container chứa các nút điều khiển để không bị lệch hàng */
 .controls {
     display: flex;
     flex-wrap: wrap;
@@ -1098,7 +1028,6 @@ body {
     width: 95%;
 }
 
-/* Nút Gợi ý (Hint) - Nếu bạn muốn nó khác màu */
 .btn.hint {
     background: #ab46da !important;
 }
@@ -1107,7 +1036,6 @@ body {
     background: rgba(0, 180, 60, 1);
 }
 
-/* Media query cho điện thoại để các nút không đè lên nhau */
 @media (max-width: 600px) {
     .btn {
         padding: 10px 12px !important;
@@ -1230,17 +1158,14 @@ body {
     transform: translate(2px, 2px);
 }
 
-/* ===== FIX BUTTON SETTINGS ===== */
 .settings-box .btn-style {
     display: flex !important;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    /* khoảng cách rõ ràng */
     margin-top: 20px;
 }
 
-/* reset ảnh hưởng cũ */
 .settings-box .btn-style button {
     flex: 1;
     padding: 12px 0;
@@ -1252,19 +1177,16 @@ body {
     transition: all 0.25s ease;
 }
 
-/* HOME - tròn + xanh */
 .settings-box .home-btn {
     background: linear-gradient(135deg, #00c853, #00e676);
     color: white;
 }
 
-/* CLOSE - đỏ */
 .settings-box .close-btn {
     background: linear-gradient(135deg, #ff5252, #ff1744);
     color: white;
 }
 
-/* hover */
 .settings-box .btn-style button:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
