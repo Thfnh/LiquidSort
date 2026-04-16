@@ -575,7 +575,6 @@ body {
 
 .btn.restart {
     background: linear-gradient(135deg, #ff7b7b, #ff3d3d);
-    color: white;
 }
 
 .btn.ai {
@@ -927,7 +926,6 @@ body {
 .settings-box {
     background: rgba(30, 30, 30, 0.95);
     color: white;
-
     padding: 25px 30px;
     border-radius: 15px;
 
@@ -998,6 +996,7 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
 }
+
 
 /* ===== ANIMATION ===== */
 @keyframes fadeIn {
@@ -1102,7 +1101,6 @@ body {
 /* Nút Gợi ý (Hint) - Nếu bạn muốn nó khác màu */
 .btn.hint {
     background: #ab46da !important;
-    color: #fff !important;
 }
 
 .btn.home {
@@ -1230,4 +1228,44 @@ body {
 
 .popup-actions button:active {
     transform: translate(2px, 2px);
+}
+
+/* ===== FIX BUTTON SETTINGS ===== */
+.settings-box .btn-style {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    /* khoảng cách rõ ràng */
+    margin-top: 20px;
+}
+
+/* reset ảnh hưởng cũ */
+.settings-box .btn-style button {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+}
+
+/* HOME - tròn + xanh */
+.settings-box .home-btn {
+    background: linear-gradient(135deg, #00c853, #00e676);
+    color: white;
+}
+
+/* CLOSE - đỏ */
+.settings-box .close-btn {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    color: white;
+}
+
+/* hover */
+.settings-box .btn-style button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
